@@ -5,7 +5,6 @@ import (
 	"poetry/configs"
 	"poetry/poetry"
 	"poetry/tools"
-	"strings"
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
@@ -54,7 +53,8 @@ func SavePoetrys(poetrys []poetry.Poetry) {
 	}
 }
 
-func saveCis(cis []ci.Ci) {
+// SaveCis 保存宋词到数据库中
+func SaveCis(cis []ci.Ci) {
 	db := GetDatabaseConn()
 	defer db.Close()
 
@@ -82,7 +82,7 @@ func main() {
 
 	// 保存宋词
 	cis := ci.ReadCi()
-	saveCis(cis)
+	SaveCis(cis)
 
 	// 保存宋朝词人
 	ciAuthors := ci.ReadCiAuthors()
