@@ -5,21 +5,28 @@ import (
 	"path/filepath"
 	"poetry/tools"
 
-	"gopkg.in/yaml.v2"
+	"gopkg.in/yaml.v3"
 )
 
-type Config struct {
-	Database struct {
-		URL      string
-		Port     string
-		Username string
-		Password string
-		Db       string
-	}
+type config struct {
+	Database      databse
+	ChinesePoetry chinesePoetry `yaml:"chinese-poetry"`
 }
 
-func poetryConfig() Config {
-	config := Config{}
+type databse struct {
+	URL      string
+	Port     string
+	Username string
+	Password string
+	Db       string
+}
+
+type chinesePoetry struct {
+	Path string
+}
+
+func poetryConfig() config {
+	config := config{}
 	file, _ := filepath.Abs("config.yml")
 	yamlFile, err := ioutil.ReadFile(file)
 	tools.CheckErr(err)
@@ -28,12 +35,19 @@ func poetryConfig() Config {
 	return config
 }
 
-func GetDatabaseUrl() string {
+// GetDatabaseURL 用来获取数据库连接
+func GetDatabaseURL() string {
 	poetryConfig := poetryConfig()
 	dbURL := poetryConfig.Database.Username + ":" +
 		poetryConfig.Database.Password + "@(" + poetryConfig.Database.URL +
 		":" + poetryConfig.Database.Port + ")/" + poetryConfig.Database.Db +
-		"?charset=utf8mb4"
+		"?charset=utf8mb4&multiStatements=true"
 
 	return dbURL
+}
+
+// GetChinesePoetryPath is return chines-poetry floder path
+func GetChinesePoetryPath() string {
+	poetryConfig := poetryConfig()
+	return poetryConfig.ChinesePoetry.Path
 }

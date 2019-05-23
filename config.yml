@@ -3,4 +3,6 @@ database:
   port: 9003
   username: root
   password: root
-  db: demo
+  db: whitebird_poetry
+chinese-poetry:
+  path: '/Users/idwangmo/FunProject/chinese-poetry'

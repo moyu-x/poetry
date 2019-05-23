@@ -13,3 +13,6 @@
 
 # ignore vendor
 /vendor/
+
+# ignore vsoce
+/.vscode/
