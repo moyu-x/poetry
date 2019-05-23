@@ -11,7 +11,7 @@ import (
 // ReadPoetryAuthors 获取诗人的信息
 func ReadPoetryAuthors(dynasty string) []Author {
 	poetryPath := configs.GetChinesePoetryPath()
-	authorJSONPath := "/json/authors." + dynasty + ".json"
+	authorJSONPath := "/json/authors." + strings.ToLower(dynasty) + ".json"
 	authorJSONdata, err := ioutil.ReadFile(poetryPath + authorJSONPath)
 	tools.CheckErr(err)
 
@@ -19,6 +19,10 @@ func ReadPoetryAuthors(dynasty string) []Author {
 
 	err = json.Unmarshal([]byte(authorJSONdata), &authors)
 	tools.CheckErr(err)
+
+	for _, author := range authors {
+		author.Type = dynasty
+	}
 
 	return authors
 }
@@ -41,6 +45,7 @@ func ReadPoetry() []Poetry {
 
 			poetryJSONArray := []JSONPoetry{}
 			err = json.Unmarshal(poetryJSONData, &poetryJSONArray)
+			tools.CheckErr(err)
 
 			var popetryType string
 			if strings.Contains(file.Name(), "song") {

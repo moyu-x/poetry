@@ -7,9 +7,10 @@ import (
 // Author 用来描述作者的信息
 type Author struct {
 	gorm.Model
-	Name string `gorm:"type:varchar(255);index" json:"name"`
-	Desc string `gorm:"type:text" json:"desc"`
-	Type string `gorm:"type:varchar(255)"`
+	Name             string `gorm:"type:varchar(255);index" json:"name"`
+	Desc             string `gorm:"type:text" json:"desc"`
+	Type             string `gorm:"type:varchar(255)"`
+	ShortDescription string `gorm:"type:text" json:"short_description"`
 }
 
 // JSONPoetry 诗的 JSON 结构
